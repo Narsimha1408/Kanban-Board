@@ -1,5 +1,4 @@
 # Kanban-Board : Website where you can create, update, remove your tasks. 
-Main Features:
 <br/>
 Managing the tasks. (CREATE, UPDATE, READ, DELETE)
 <br/>
