@@ -43,7 +43,7 @@ body{
 }
 
 .action-cont{
-    height: 3.5rem;
+    height: 3.5rem;  
     width: 6rem;
     justify-content: space-around;
     background-color:darkgray;
