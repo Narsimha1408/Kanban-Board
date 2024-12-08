@@ -5,6 +5,7 @@ let textAreaContainer=document.querySelector(".modal-description");
 let modalcolorElements=document.querySelectorAll(".priority-color")
 let selectedPriorityColor="green"
 
+
 modalFlag = false;
 addButton.addEventListener("click", function () {
     modalFlag = !modalFlag;
@@ -52,5 +53,27 @@ function createTicket(textAreaContainer_val, selectedPriorityColor) {
             `
     console.log(ticketContainer.classList)
     mainContainer.appendChild(ticketContainer);
+    lockUnlock(ticketContainer)
 }
+
+
+function lockUnlock(ticketContainer){
+    let lockUnlockElement = ticketContainer.querySelector(".lock-unlock").children[0]
+    let ticketContainerTaskDescriptionArea=ticketContainer.querySelector(".ticket-description")
+    lockUnlockElement.addEventListener("click",function(){
+        if(lockUnlockElement.classList.contains("fa-lock")){
+            lockUnlockElement.classList.remove("fa-lock")
+            lockUnlockElement.classList.add("fa-unlock")
+            ticketContainerTaskDescriptionArea.setAttribute("contenteditable","true");
+        }
+        else{
+            lockUnlockElement.classList.remove("fa-unlock")
+            lockUnlockElement.classList.add("fa-lock")
+            ticketContainerTaskDescriptionArea.setAttribute("contenteditable","false");
+        }
+    })
+
+}
+
+
 
