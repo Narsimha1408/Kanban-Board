@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanban - Board</title>
-    <script src="https://kit.fontawesome.com/a32a3d8640.js" crossorigin="anonymous"></script> 
-    <link rel="stylesheet" href="kanban_board.css">       
+    <title>Kanban - Board</title> 
+    <link rel="stylesheet" href="kanban_board.css">  
 </head>
 <body>
     <!-- top header -->
@@ -20,16 +19,16 @@
  
         <!-- add and delete button -->
         <div class="action-cont">
-            <div class="min-btn">-</div>
             <div class="add-btn">+</div>
+            <div class="min-btn">-</div>
         </div>
     </div>
 
     <!-- body in which tickets are stored -->
 
-    <!-- <div class="main-cont">
+    <div class="main-cont">
 
-        <div class="ticket-cont">
+        <!-- <div class="ticket-cont">
             <div class="ticket-color"></div>
             <div class="ticket-id">ticket 1</div>
             <div class="ticket-description"></div>
@@ -37,15 +36,15 @@
                 <i class="fa-solid fa-lock"></i>
             </div>
 
-        </div>
+        </div> -->
         
-    </div> -->
+    </div>
 
     <!-- modal task pop up -->
     <div class="modal-cont">
         <textarea class="modal-description" placeholder="Enter your tasks"></textarea>
         <div class="priority-colour-container">
-            <div class="green priority-color"></div>
+            <div class="green priority-color active-color"></div>
             <div class="yellow priority-color"></div>
             <div class="blue priority-color"></div>
             <div class="red priority-color"></div>
@@ -53,5 +52,9 @@
 
 
     </div>
+
+    <!-- adding external scripts -->
+    <script src="kanban_board.js"></script>
+    <script src="https://kit.fontawesome.com/a32a3d8640.js" crossorigin="anonymous"></script>
 </body>
 </html>

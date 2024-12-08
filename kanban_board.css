@@ -80,25 +80,25 @@ body{
     
 }
 .ticket-color{
-    background-color: black;
+    background-color: none;
     height:1rem
 }
 
 .ticket-id{
-    background-color: yellow;
+    background-color: white;
     height:2rem;
 }
 .lock-unlock{
     display: flex;
     font-size: 1.3rem;
     justify-content:flex-end;
-    margin-top: 7.0rem;
+    margin-top: 6.0rem;
     margin-right: 0.5rem;
     
 }
 
 .modal-cont{
-    display: flex;
+    display: none;
     width:30vw;
     height: 40vh;
     position: absolute;
@@ -126,7 +126,13 @@ body{
 }
 .priority-color{
     height:3rem;
-    width:5rem
+    width:5rem;
+}
+
+.active-color{
+    border-width: 2px;
+    border-color: gold;
+    border-style: solid;
 }
 
 
