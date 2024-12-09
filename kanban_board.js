@@ -46,7 +46,7 @@ function createTicket(textAreaContainer_val, selectedPriorityColor) {
     let ticketContainer = document.createElement("div")
     ticketContainer.setAttribute("class", "ticket-cont");
     ticketContainer.innerHTML = `
-            <div class="ticket-color ${selectedPriorityColor}"></div>
+            <div class="ticket-color-cont ${selectedPriorityColor}"></div>
             <div class="ticket-id" > ticket 1</div>
             <div class="ticket-description">${textAreaContainer_val}</div>
             <div class="lock-unlock">
@@ -57,6 +57,7 @@ function createTicket(textAreaContainer_val, selectedPriorityColor) {
     mainContainer.appendChild(ticketContainer);
     lockUnlock(ticketContainer)
     handleDelete(ticketContainer)
+    changePriorityColor(ticketContainer)
 }
 
 
@@ -96,8 +97,29 @@ function handleDelete(ticketContainer){
             return
         }
     })
-    
+}
 
+function changePriorityColor(ticketContainer){
+
+    
+    let currentColorBand=ticketContainer.querySelector(".ticket-color-cont")
+    currentColorBand.addEventListener("click",function(){
+        defaultColors=["green","yellow","blue","red"];
+        let currentColor=currentColorBand.classList[1]
+        let currentColorIdx=defaultColors.findIndex(function(color){
+            return currentColor === color
+        })
+        //to get the next color from array, when you click on color band of ticket 
+        //to be in the range of 4 we are using modulo
+        currentColorIdx= (currentColorIdx+1)%(defaultColors.length)
+        newColor=defaultColors[currentColorIdx]
+        currentColorBand.classList.remove(currentColor)
+        currentColorBand.classList.add(newColor)
+
+
+    })
+    
+    
 }
 
 
