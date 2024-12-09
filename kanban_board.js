@@ -2,8 +2,10 @@ let addButton = document.querySelector(".add-btn");
 let modalContainer = document.querySelector(".modal-cont")
 let mainContainer=document.querySelector(".main-cont");
 let textAreaContainer=document.querySelector(".modal-description");
-let modalcolorElements=document.querySelectorAll(".priority-color")
-let selectedPriorityColor="green"
+let modalcolorElements=document.querySelectorAll(".priority-color");
+let deleteButtonElement=document.querySelector(".min-btn");
+let selectedPriorityColor="green";
+let deleteButtonActive=false;
 
 
 modalFlag = false;
@@ -54,6 +56,7 @@ function createTicket(textAreaContainer_val, selectedPriorityColor) {
     console.log(ticketContainer.classList)
     mainContainer.appendChild(ticketContainer);
     lockUnlock(ticketContainer)
+    handleDelete(ticketContainer)
 }
 
 
@@ -72,6 +75,28 @@ function lockUnlock(ticketContainer){
             ticketContainerTaskDescriptionArea.setAttribute("contenteditable","false");
         }
     })
+}
+
+deleteButtonElement.addEventListener("click",function(){
+    deleteButtonActive = !deleteButtonActive
+    if(deleteButtonActive === true){
+        deleteButtonElement.style.color="red";
+    }
+    else{
+        deleteButtonElement.style.color="black";
+    }
+})
+
+function handleDelete(ticketContainer){
+    ticketContainer.addEventListener("click",function(){
+        if(deleteButtonActive === true){
+            ticketContainer.remove()
+        }
+        else{
+            return
+        }
+    })
+    
 
 }
 
