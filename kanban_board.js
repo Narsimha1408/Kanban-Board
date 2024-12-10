@@ -4,6 +4,7 @@ let mainContainer=document.querySelector(".main-cont");
 let textAreaContainer=document.querySelector(".modal-description");
 let modalcolorElements=document.querySelectorAll(".priority-color");
 let deleteButtonElement=document.querySelector(".min-btn");
+let filterColorBoxes=document.querySelectorAll(".color-box")
 let selectedPriorityColor="green";
 let deleteButtonActive=false;
 
@@ -42,12 +43,12 @@ modalcolorElements.forEach(function(eachColorElem){
 
 
 function createTicket(textAreaContainer_val, selectedPriorityColor) {
-    
+    let uniqueId=shortid();
     let ticketContainer = document.createElement("div")
     ticketContainer.setAttribute("class", "ticket-cont");
     ticketContainer.innerHTML = `
             <div class="ticket-color-cont ${selectedPriorityColor}"></div>
-            <div class="ticket-id" > ticket 1</div>
+            <div class="ticket-id" > ${uniqueId}</div>
             <div class="ticket-description">${textAreaContainer_val}</div>
             <div class="lock-unlock">
                 <i class="fa-solid fa-lock"></i>
@@ -117,9 +118,20 @@ function changePriorityColor(ticketContainer){
         currentColorBand.classList.add(newColor)
 
 
+    }) 
+}
+
+for(let i=0; i<filterColorBoxes.length; i++){
+    filterColorBoxes[i].addEventListener("click",function(){
+        let selectedColorBox = filterColorBoxes[i].classList[1]
+
+        allTicketsCreated=document.querySelectorAll(".ticket-cont")
+        
+        for(let j=0; j<allTicketsCreated.length;j++){
+            allTicketsCreated[j].remove()
+        }
     })
-    
-    
+
 }
 
 
