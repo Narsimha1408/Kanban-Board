@@ -7,6 +7,7 @@ let deleteButtonElement=document.querySelector(".min-btn");
 let filterColorBoxes=document.querySelectorAll(".color-box")
 let selectedPriorityColor="green";
 let deleteButtonActive=false;
+let ticketsStorageArray=[];
 
 
 modalFlag = false;
@@ -42,13 +43,13 @@ modalcolorElements.forEach(function(eachColorElem){
 })
 
 
-function createTicket(textAreaContainer_val, selectedPriorityColor) {
-    let uniqueId=shortid();
+function createTicket(textAreaContainer_val, selectedPriorityColor, uniqueId) {
+    let Id=uniqueId || shortid();
     let ticketContainer = document.createElement("div")
     ticketContainer.setAttribute("class", "ticket-cont");
     ticketContainer.innerHTML = `
             <div class="ticket-color-cont ${selectedPriorityColor}"></div>
-            <div class="ticket-id" > ${uniqueId}</div>
+            <div class="ticket-id" > ${Id}</div>
             <div class="ticket-description">${textAreaContainer_val}</div>
             <div class="lock-unlock">
                 <i class="fa-solid fa-lock"></i>
@@ -59,6 +60,10 @@ function createTicket(textAreaContainer_val, selectedPriorityColor) {
     lockUnlock(ticketContainer)
     handleDelete(ticketContainer)
     changePriorityColor(ticketContainer)
+    if(!uniqueId){
+        ticketsStorageArray.push({selectedPriorityColor, uniqueId:Id, textAreaContainer_val})
+    }
+    
 }
 
 
@@ -121,15 +126,22 @@ function changePriorityColor(ticketContainer){
     }) 
 }
 
+//adding the event listener to every color box for filtering process
+//after clicking the color box, we are deleting every ticket and getting back the tickets from stored array
 for(let i=0; i<filterColorBoxes.length; i++){
     filterColorBoxes[i].addEventListener("click",function(){
-        let selectedColorBox = filterColorBoxes[i].classList[1]
-
-        allTicketsCreated=document.querySelectorAll(".ticket-cont")
         
+        allTicketsCreated=document.querySelectorAll(".ticket-cont")
         for(let j=0; j<allTicketsCreated.length;j++){
             allTicketsCreated[j].remove()
         }
+        let selectedColorBox = filterColorBoxes[i].classList[1]
+        let filteredTickets=ticketsStorageArray.filter(function(ticket){
+            return selectedColorBox === ticket.selectedPriorityColor
+        })
+        filteredTickets.forEach(function(filteredTicket){
+            createTicket(filteredTicket.textAreaContainer_val, filteredTicket.selectedPriorityColor, filteredTicket.uniqueId)
+        })
     })
 
 }
