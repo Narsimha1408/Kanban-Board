@@ -31,6 +31,10 @@ if (localStorage.getItem("tickets")) {
 
 modalFlag = false;
 addButton.addEventListener("click", function () {
+    if(deleteButtonActive === true){
+        deleteButtonActive=!deleteButtonActive;
+        deleteButtonElement.style.color="black";
+    }
     modalFlag = !modalFlag;
     if (modalFlag == true) {
         modalContainer.style.display = "flex";
@@ -42,8 +46,15 @@ addButton.addEventListener("click", function () {
 
 modalContainer.addEventListener("keydown", function (e) {
     if (e.key === "Shift") {
-        createTicket(textAreaContainer.value, selectedPriorityColor)
-        modalContainer.style.display = "none";
+        if(textAreaContainer.value!=""){
+            createTicket(textAreaContainer.value, selectedPriorityColor)
+            modalContainer.style.display = "none";
+        }
+        else{
+            alert("You cannot create an empty ticket")
+        }
+        textAreaContainer.value=""
+        
     }
 
 })
