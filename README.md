@@ -10,3 +10,12 @@ Tasks persistence with the help of local Storage.
 <br/>
 Tool box to Create and remove tasks. (you can select multiple tasks if you want to remove them)
 <br/>
+
+#Rules to be followed: 
+<br/>
+once you are done with writing the description, press shift to create the ticket to render it on UI. 
+<br/>
+Double click on filter box to render all the tickets which are saved when you are done with filtering the tickets.
+<br/>
+click on unlock icon and click on description to update the ticket and lock it to save the updated ticket.
+<br/>
