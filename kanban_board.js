@@ -7,7 +7,26 @@ let deleteButtonElement=document.querySelector(".min-btn");
 let filterColorBoxes=document.querySelectorAll(".color-box")
 let selectedPriorityColor="green";
 let deleteButtonActive=false;
-let ticketsStorageArray=[];
+let ticketsStorageArray = []; 
+if (localStorage.getItem("tickets")) { 
+    let parsedTickets = JSON.parse(localStorage.getItem("tickets")); 
+    if (Array.isArray(parsedTickets)) { 
+        ticketsStorageArray = parsedTickets; 
+        ticketsStorageArray.forEach(function(ticket) { 
+            createTicket(ticket.textAreaContainer_val, ticket.selectedPriorityColor, ticket.uniqueId); 
+        }); 
+    } else { 
+        console.error("Tickets data is not an array", parsedTickets); 
+    }
+}
+// let ticketsStorageArray=[];
+
+// if(localStorage.getItem("tickets")){
+//     ticketsStorageArray=JSON.parse(localStorage.getItem("tickets"))
+//     ticketsStorageArray.forEach(function(ticket){
+//         createTicket(ticket.textAreaContainer_val, ticket.selectedPriorityColor, ticket.uniqueId)
+//     })
+// }
 
 
 modalFlag = false;
@@ -62,6 +81,7 @@ function createTicket(textAreaContainer_val, selectedPriorityColor, uniqueId) {
     changePriorityColor(ticketContainer)
     if(!uniqueId){
         ticketsStorageArray.push({selectedPriorityColor, uniqueId:Id, textAreaContainer_val})
+        localStorage.setItem("tickets",JSON.stringify(ticketsStorageArray))
     }
     
 }
@@ -80,8 +100,23 @@ function lockUnlock(ticketContainer){
             lockUnlockElement.classList.remove("fa-unlock")
             lockUnlockElement.classList.add("fa-lock")
             ticketContainerTaskDescriptionArea.setAttribute("contenteditable","false");
+
+            //updating the updated description in the local storage 
+            ExistedLocalStorageArray=JSON.parse(localStorage.getItem("tickets"))
+            console.log(ExistedLocalStorageArray)
+            descriptionchangedForticketID=ticketContainer.querySelector(".ticket-id").innerText;
+            for(let i=0;i<ExistedLocalStorageArray.length;i++){
+                if(ExistedLocalStorageArray[i].uniqueId === descriptionchangedForticketID){
+                    ExistedLocalStorageArray[i].textAreaContainer_val=ticketContainerTaskDescriptionArea.innerText;
+                    break;
+                }
+            }
+            localStorage.setItem('tickets', JSON.stringify(ExistedLocalStorageArray))
+
+            
         }
     })
+    
 }
 
 deleteButtonElement.addEventListener("click",function(){
@@ -97,7 +132,17 @@ deleteButtonElement.addEventListener("click",function(){
 function handleDelete(ticketContainer){
     ticketContainer.addEventListener("click",function(){
         if(deleteButtonActive === true){
+            //removing the ticket from Local storage
+            deletedTicketId=ticketContainer.querySelector(".ticket-id").innerText
+            ExistedLocalStorageArray=JSON.parse(localStorage.getItem("tickets"))
+            
+            ExistedLocalStorageArray = ExistedLocalStorageArray.filter(function(ticket) { 
+                return ticket.uniqueId !== deletedTicketId;
+            })
+            localStorage.setItem('tickets',JSON.stringify(ExistedLocalStorageArray))
+            //removing from html dom
             ticketContainer.remove()
+
         }
         else{
             return
@@ -106,8 +151,6 @@ function handleDelete(ticketContainer){
 }
 
 function changePriorityColor(ticketContainer){
-
-    
     let currentColorBand=ticketContainer.querySelector(".ticket-color-cont")
     currentColorBand.addEventListener("click",function(){
         defaultColors=["green","yellow","blue","red"];
@@ -121,21 +164,34 @@ function changePriorityColor(ticketContainer){
         newColor=defaultColors[currentColorIdx]
         currentColorBand.classList.remove(currentColor)
         currentColorBand.classList.add(newColor)
-
-
-    }) 
+        //getting the element for which color has been updated
+        //and updating the same in the local storage
+        ExistedLocalStorageArray=JSON.parse(localStorage.getItem("tickets"))
+        ColorchangedForticketID=ticketContainer.querySelector(".ticket-id").innerText;
+        for(let i=0;i<ExistedLocalStorageArray.length;i++){
+            if(ExistedLocalStorageArray[i].uniqueId === ColorchangedForticketID){
+                ExistedLocalStorageArray[i].selectedPriorityColor=newColor;
+                break;
+            }
+        }
+        localStorage.setItem('tickets', JSON.stringify(ExistedLocalStorageArray))
+    }
+    )
 }
 
 //adding the event listener to every color box for filtering process
 //after clicking the color box, we are deleting every ticket and getting back the tickets from stored array
 for(let i=0; i<filterColorBoxes.length; i++){
+    //single click to fliter according to the color which was clicked
     filterColorBoxes[i].addEventListener("click",function(){
         
         allTicketsCreated=document.querySelectorAll(".ticket-cont")
         for(let j=0; j<allTicketsCreated.length;j++){
             allTicketsCreated[j].remove()
         }
+        
         let selectedColorBox = filterColorBoxes[i].classList[1]
+        ticketsStorageArray=JSON.parse(localStorage.getItem("tickets"))
         let filteredTickets=ticketsStorageArray.filter(function(ticket){
             return selectedColorBox === ticket.selectedPriorityColor
         })
@@ -143,6 +199,22 @@ for(let i=0; i<filterColorBoxes.length; i++){
             createTicket(filteredTicket.textAreaContainer_val, filteredTicket.selectedPriorityColor, filteredTicket.uniqueId)
         })
     })
+     
+    //double click to render all the ticket which stored in the local storage
+    filterColorBoxes[i].addEventListener("dblclick",function(){
+        let allTicketsCreated = document.querySelectorAll(".ticket-cont"); 
+        allTicketsCreated.forEach(function(ticket) { 
+            ticket.remove(); 
+        }); 
+        // Render all tickets stored from ExistedLocalStorageArray 
+        ExistedLocalStorageArray=JSON.parse(localStorage.getItem("tickets"))
+        ExistedLocalStorageArray.forEach(function(ticket) { 
+            createTicket(ticket.textAreaContainer_val, ticket.selectedPriorityColor, ticket.uniqueId); 
+        });
+
+    })
+
+
 
 }
 
